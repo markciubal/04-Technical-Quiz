@@ -6,6 +6,10 @@ let countdownText = document.querySelector("#countdown");
 let questions = [];
 let questionBank = [];
 
+const timeToPlay = 60;
+let secondsLeft = timeToPlay;
+let timerInterval;
+
 questions.push({
     question: "What is a string?",
     answers: [
@@ -41,18 +45,37 @@ function renderQuestion(questionNumber) {
 }
 
 function renderAnswers(questionNumber) {
-    let answerHTML = "<li>" + questionBank[questionNumber].answers.a + "</li>"; 
-    answerHTML += "<li>" + questionBank[questionNumber].answers.b + "</li>"; 
-    answerHTML += "<li>" + questionBank[questionNumber].answers.c + "</li>"; 
-    answerHTML += "<li>" + questionBank [questionNumber].answers.d + "</li>"; 
+    let answerHTML = "";
+    console.log(questionBank[questionNumber]);
+    for (let i = 0; i < questionBank[questionNumber].answers.length; i++) {
+        answerHTML += "<li>" + questionBank[questionNumber].answers[i] + "</li>"; 
+    }
     answerList.innerHTML = answerHTML;
 }
 
+// Starts the game countdown timer.
 function startCountdown() {
-    countdownText.innerHTML("<p style=\"font-size: 50px\">Started Countdown</p>");
+    // let fontSize = 72;
+    countdownText.innerHTML = "1 Minute";
+    timerInterval = setInterval(function() {
+        secondsLeft--;
+        // style="font-size: ${fontSize - secondsLeft}px"
+        countdownText.innerHTML = `${secondsLeft} Seconds`;
+    
+        if(secondsLeft === 0) {
+            // Stops execution of action at set interval
+            clearInterval(timerInterval);
+            // Calls function to create and append image
+            countdownText.innerHTML = `Game Over!`;
+            gameOver();
+        }
+    
+      }, 1000);    
 }
 
 function startGame() {
+    secondsLeft = timeToPlay;
+    clearInterval(timerInterval);
     startCountdown()
     pickRandomQuestions();
     //for each question in questionbank.
