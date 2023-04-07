@@ -12,7 +12,8 @@
     <!-- Needs Timer Header -->
     <header>
         <div>
-            <span style="float: left;">View High Scores</span>
+            <span style="float: left;">View High Scores</span><br />
+            <span id="currentScore">Score: 0</span>
         </div>
         <div>
             <span style="float: right;">Time: <span id="countdown">1 Minute</span></span>
@@ -23,11 +24,12 @@
             Here is where the questions will appear.
         </question>
         <ol id="answers">
-            <li>Here is where the answers will appear.</li>
+            <li><button class="answer">Here is where the answers will appear.</button></li>
         </ol>
+        <span id="status"></span><br />
         <input type="button" value="Start" id="start" />
     </main>
-    <script src="./assets/script.js"></script>
+    <script src="./assets/js/quiz.js"></script>
 </body>
 
 </html>
