@@ -17,19 +17,47 @@ header div {
 main {
     text-align: center;
     width: d 50%;
-    border: 1px solid black;
     margin: 10%;
 }
 
 question {
-    border: 1px solid red;
     width: 100%;
     text-align: center;
     margin: 1%;
-    font-size: 4em;
+    font-size: 3em;
 }
 
 #answers {
     margin: 1%;
-    border: 1px solid green;
+}
+
+li {
+    padding: 1%;
+}
+
+li button:hover {
+
+    transition: all .25s;
+    background-color: green;
+    color: white;
+}
+
+li button:hover::before {
+    content: ' - ';
+}
+
+li button:hover::after {
+    content: ' - ';
+}
+
+gameover {
+    font-size: 4em;
+    font-weight: bolder;
+}
+
+.gameover {
+    transition: all 3s;
+    font-size: 5em;
+    text-shadow: #FC0 1px 0 10px, rgb(255, 0, 0) 1px 0 10px;
+    ;
 }

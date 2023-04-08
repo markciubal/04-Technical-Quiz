@@ -1,7 +1,14 @@
 
 /* TODO:
     - Make elements to pick constants instead of hard-coding them.
+    - Add local storage to save high schores.
 */
+/* Helper functions. 
+
+FROM: https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep */
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 const timeToPlay = 60;
 const numberOfQuestions = 10;
@@ -11,6 +18,7 @@ let score = document.querySelector("#currentScore");
 let countdownText = document.querySelector("#countdown");
 
 let questionArea = document.querySelector("question");
+let gameoverArea = document.querySelector("gameover");
 let answerList = document.querySelector("#answers");
 let answers = document.querySelectorAll(".answer");
 let statusText = document.querySelector("#status");
@@ -48,6 +56,14 @@ let timerInterval;
 /* Give up access to user input at any time. */
 let userAnswers = [];
 
+let scoreObject = {
+    points: 0,
+    percentage: 0,
+    correct: 0,
+    incorrect: 0
+}
+/* Points to 0, this is different than score because points grows by a product of time left. */
+let points = 0;
 function pickRandomQuestions() {
     /* Set to blank array if it exists. Prevents stacking of questionBank results. */
     questionBank = [];
@@ -76,10 +92,6 @@ function renderAnswers(questionNumberIndex) {
     answerList.innerHTML = answerHTML;
 }
 
-function gameOver(userAnswers) {
-    questionArea.textContent = "G A M E   O V E R";
-    answerList.innerHTML = "";
-}
 
 /* Starts the game countdown timer. */
 function startCountdown() {
@@ -92,7 +104,7 @@ function startCountdown() {
             clearInterval(timerInterval);
 
             // Calls function to create and append image
-            countdownText.innerHTML = `Game Over!`;
+            countdownText.innerHTML = "";
             gameOver();
         }
     
@@ -117,6 +129,7 @@ function renderScore(userAnswers) {
     for (let i = 0; i < userAnswers.length; i++) {
         if (userAnswers[i] === "correct") {
             numberCorrect++;
+            points += 10 * secondsLeft;
         } else if (userAnswers[i] === "incorrect") {
             numberIncorrect++;
         }
@@ -125,7 +138,17 @@ function renderScore(userAnswers) {
     if (percentageCorrect === "NaN") {
         percentageCorrect = 0;
     }
-    score.textContent = `Correct: ${numberCorrect} | Incorrect: ${numberIncorrect} | ${percentageCorrect}%`;
+        
+    scoreObject = {
+        points: points,
+        percentage: percentageCorrect,
+        correct: numberCorrect,
+        incorrect: numberIncorrect
+    }
+
+    localStorage.setItem("score", JSON.stringify(scoreObject));
+
+    score.textContent = `Points: ${points} | Correct: ${numberCorrect} | Incorrect: ${numberIncorrect} | ${percentageCorrect}%`;
 }
 
 // function updateQuestion(questionNumberIndex) {
@@ -139,28 +162,31 @@ function listenForAnswers(questionNumberIndex) {
         answers[i].addEventListener("mouseup", function() {
             if (this.value == correctAnswer) {
                 userAnswers[questionNumberIndex] = "correct";
-                nextQuestion(questionNumberIndex);
                 statusText.textContent = "Correct!";
             } else {
+                secondsLeft = secondsLeft - 5;
                 userAnswers[questionNumberIndex] = "incorrect";
-                nextQuestion(questionNumberIndex);
                 statusText.textContent = "Incorrect!";
             }
-            if (answers.length === numberOfQuestions) {
-                lastQuestion = true;
-            }
+            nextQuestion(questionNumberIndex);
         });
     }
+
     renderScore(userAnswers);
     
 }
 
 function startGame() {
+    /* Reset timer, points, and answers. */
     secondsLeft = timeToPlay;
-    userAnswers = [];
     clearInterval(timerInterval);
+    points = 0;
+    userAnswers = [];
+    gameoverArea.textContent = "";
+    gameoverArea.className = "";
     startCountdown()
     pickRandomQuestions();
+
     // Render the first question.
     renderQuestion(0);
     renderAnswers(0);
@@ -171,3 +197,20 @@ startButton.addEventListener("click", function() {
     startGame();
     startButton.value = "Restart";
 });
+
+function gameOver(userAnswers) {
+    clearInterval(timerInterval);
+    countdownText.innerHTML = "";
+    gameoverArea.className = 'gameover';
+    gameoverArea.textContent = "G A M E   O V E R";
+    questionArea.textContent = "";
+    if (statusText) {
+        console.log("Found status text.");
+        statusText.textContent = "";
+    } else {
+        alert("Could not find status text.");
+    }
+    
+    answerList.innerHTML = "";
+    
+}
