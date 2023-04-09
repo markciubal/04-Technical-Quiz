@@ -15,6 +15,7 @@ const timeToPlay = 60;
 const numberOfQuestions = 10;
 let secondsLeft = timeToPlay;
 let scoreboard = document.querySelector('scoreboard');
+let scores = document.querySelector('#scores');
 let highscoresText = document.querySelector('#highScores');
 let closeScores = document.querySelector('#closeScoreboard')
 let score = document.querySelector("#currentScore");
@@ -167,7 +168,7 @@ function listenForAnswers(questionNumberIndex) {
                 statusText.textContent = "Correct!";
             } else {
                 secondsLeft = secondsLeft - 5;
-                countdownText.innerHTML = `${secondsLeft} Seconds`;
+                countdownText.innerHTML = `<span style="color: red">${secondsLeft + 5}-5</span> Seconds`;
                 userAnswers[questionNumberIndex] = "incorrect";
                 statusText.textContent = "Incorrect!";
             }
@@ -177,6 +178,30 @@ function listenForAnswers(questionNumberIndex) {
 
     renderScore(userAnswers);
     
+}
+
+function renderHighScores() {
+
+    let scoreList = JSON.parse(localStorage.getItem("currentScores"));
+
+    /* Sort the table from highest to lowest points value. */
+    scoreList.sort(function(a,b) {
+        return a.points + b.points;
+    });
+    let scoreTable = `<tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>`;
+    console.log(scoreTable);
+    for (let i = 0; i < scoreList.length; i++) {
+        if (scoreList[i].points != 0) {
+            scoreTable += `<tr>
+                                <td>${scoreList[i].name}</td>
+                                <td>${scoreList[i].points}</td>
+                            </tr>`;
+        }
+    }
+    scores.innerHTML = scoreTable;
 }
 
 function startGame() {
@@ -189,6 +214,7 @@ function startGame() {
     }   
     console.log(scoreObject);
     currentScores.push(scoreObject);
+    localStorage.setItem("currentScores", JSON.stringify(currentScores));
     /* Reset timer, points, and answers. */
     secondsLeft = timeToPlay;
     clearInterval(timerInterval);
@@ -206,6 +232,7 @@ function startGame() {
     listenForAnswers(0);
 }
 function showScores() {
+    renderHighScores();
     scoreboard.className = "visible";
 }
 
@@ -228,7 +255,6 @@ closeScores.addEventListener("click", function() {
 
 function gameOver(userAnswers) {
     
-    localStorage.setItem("currentScores", JSON.stringify(currentScores));
     clearInterval(timerInterval);
     countdownText.innerHTML = "";
     gameoverArea.className = 'gameover';
