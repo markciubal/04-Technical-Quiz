@@ -12,7 +12,7 @@
     <!-- Needs Timer Header -->
     <header>
         <div>
-            <span style="float: left;">View High Scores</span><br />
+            <span id="highScores" style="float: left;">View High Scores</span><br />
             <span id="currentScore">Score: 0</span>
         </div>
         <div>
@@ -20,11 +20,16 @@
         </div>
     </header>
     <main>
+        <scoreboard class="hidden">
+            <h1>High Scores</h1>
+            <button id="closeScoreboard">Close Scoreboard</button>
+        </scoreboard>
         <gameover>
         </gameover>
         <question>
             Here is where the questions will appear.
         </question>
+        <input id="name" placeholder="What is your name?" style="display: none;"></input>
         <ol id="answers">
             <li><button class="answer">Here is where the answers will appear.</button></li>
         </ol>

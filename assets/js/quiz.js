@@ -2,6 +2,7 @@
 /* TODO:
     - Make elements to pick constants instead of hard-coding them.
     - Add local storage to save high schores.
+    - Fix high score system.
 */
 /* Helper functions. 
 
@@ -13,17 +14,18 @@ function sleep(ms) {
 const timeToPlay = 60;
 const numberOfQuestions = 10;
 let secondsLeft = timeToPlay;
-
+let scoreboard = document.querySelector('scoreboard');
+let highscoresText = document.querySelector('#highScores');
+let closeScores = document.querySelector('#closeScoreboard')
 let score = document.querySelector("#currentScore");
 let countdownText = document.querySelector("#countdown");
-
 let questionArea = document.querySelector("question");
 let gameoverArea = document.querySelector("gameover");
 let answerList = document.querySelector("#answers");
 let answers = document.querySelectorAll(".answer");
 let statusText = document.querySelector("#status");
 let startButton = document.querySelector("#start");
-
+let nameValue = document.querySelector('#name');
 let lastQuestion = false;
 /* Declare globally scoped variables. */
 /* Set up questions. */
@@ -57,6 +59,7 @@ let timerInterval;
 let userAnswers = [];
 
 let scoreObject = {
+    name: "Anonymous",
     points: 0,
     percentage: 0,
     correct: 0,
@@ -64,6 +67,9 @@ let scoreObject = {
 }
 /* Points to 0, this is different than score because points grows by a product of time left. */
 let points = 0;
+
+let currentScores = [];
+
 function pickRandomQuestions() {
     /* Set to blank array if it exists. Prevents stacking of questionBank results. */
     questionBank = [];
@@ -140,31 +146,28 @@ function renderScore(userAnswers) {
     }
         
     scoreObject = {
+        name: nameValue.value,
         points: points,
         percentage: percentageCorrect,
         correct: numberCorrect,
         incorrect: numberIncorrect
     }
 
-    localStorage.setItem("score", JSON.stringify(scoreObject));
-
+    console.log(currentScores);
     score.textContent = `Points: ${points} | Correct: ${numberCorrect} | Incorrect: ${numberIncorrect} | ${percentageCorrect}%`;
 }
-
-// function updateQuestion(questionNumberIndex) {
-    
-// }
 
 function listenForAnswers(questionNumberIndex) {
     let correctAnswer = questionBank[questionNumberIndex].correct;
     answers = document.querySelectorAll(".answer");
     for (let i = 0; i < answers.length; i++) {
-        answers[i].addEventListener("mouseup", function() {
+        answers[i].addEventListener("click", function() {
             if (this.value == correctAnswer) {
                 userAnswers[questionNumberIndex] = "correct";
                 statusText.textContent = "Correct!";
             } else {
                 secondsLeft = secondsLeft - 5;
+                countdownText.innerHTML = `${secondsLeft} Seconds`;
                 userAnswers[questionNumberIndex] = "incorrect";
                 statusText.textContent = "Incorrect!";
             }
@@ -177,6 +180,15 @@ function listenForAnswers(questionNumberIndex) {
 }
 
 function startGame() {
+    scoreObject = {
+        name: nameValue.value,
+        points: scoreObject.points,
+        percentage: scoreObject.percentage,
+        correct: scoreObject.correct,
+        incorrect: scoreObject.incorrect
+    }   
+    console.log(scoreObject);
+    currentScores.push(scoreObject);
     /* Reset timer, points, and answers. */
     secondsLeft = timeToPlay;
     clearInterval(timerInterval);
@@ -184,6 +196,7 @@ function startGame() {
     userAnswers = [];
     gameoverArea.textContent = "";
     gameoverArea.className = "";
+    nameValue.style = "display: none;";
     startCountdown()
     pickRandomQuestions();
 
@@ -192,17 +205,34 @@ function startGame() {
     renderAnswers(0);
     listenForAnswers(0);
 }
+function showScores() {
+    scoreboard.className = "visible";
+}
+
+function hideScores() {
+    scoreboard.className = 'hidden';
+}
 
 startButton.addEventListener("click", function() {
     startGame();
     startButton.value = "Restart";
 });
 
+highscoresText.addEventListener("click", function() {
+    showScores();
+});
+
+closeScores.addEventListener("click", function() {
+    hideScores();
+});
+
 function gameOver(userAnswers) {
+    
+    localStorage.setItem("currentScores", JSON.stringify(currentScores));
     clearInterval(timerInterval);
     countdownText.innerHTML = "";
     gameoverArea.className = 'gameover';
-    gameoverArea.textContent = "G A M E   O V E R";
+    gameoverArea.textContent = "GAME OVER";
     questionArea.textContent = "";
     if (statusText) {
         console.log("Found status text.");
@@ -210,7 +240,8 @@ function gameOver(userAnswers) {
     } else {
         alert("Could not find status text.");
     }
-    
+    nameValue.style = "display: all";
     answerList.innerHTML = "";
-    
+    startButton.value = "Save and Restart";
+    localStorage.setItem("score", JSON.stringify(scoreObject));
 }
