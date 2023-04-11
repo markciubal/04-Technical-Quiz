@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 * {
-    font-family: 'Bebas Neue', 'Courier New', monospace;
+    font-family: monospace;
     color: white;
 }
 
@@ -29,7 +29,7 @@ main {
 question {
     text-align: center;
     display: block;
-    font-size: 4em;
+    font-size: 2.5em;
 }
 
 #answers {
@@ -83,14 +83,6 @@ li button:hover {
 
 }
 
-li button:hover::before {
-    content: ' - ';
-}
-
-li button:hover::after {
-    content: ' - ';
-}
-
 gameover {
     color: #ccc;
     font-size: 4em;
@@ -98,6 +90,19 @@ gameover {
 }
 
 .gameover {
+    transition: all 3s;
+    color: white;
+    font-size: 4em;
+    text-shadow: #f5f5f5 1px 0 100px, #e7e7e7 1px 0 80px, #a8a8a8 1px 0 60px, #707070 1px 0 40px;
+}
+
+correct {
+    color: #ccc;
+    font-size: 4em;
+    font-weight: bolder;
+}
+
+correct {
     transition: all 3s;
     color: white;
     font-size: 4em;

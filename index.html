@@ -25,20 +25,23 @@
             <table id="scores"></table>
             <br />
             <button id="closeScoreboard">Close Scoreboard</button>
-
-        </scoreboard>
+        </scoreboard class="hidden">
+        <correct>
+        </correct>
         <gameover>
         </gameover>
         <question>
             Here is where the questions will appear.
         </question>
-        <input id="name" placeholder="What is your name?" style="display: none;"></input>
+        <input id="name" placeholder="Name?" maxlength="32" style="display: none;"></input>
         <ol id="answers">
             <li><button class="answer">Here is where the answers will appear.</button></li>
         </ol>
         <p id="status"></p><br />
         <input type="button" value="Start" id="start" />
     </main>
+    <!-- Commented out by default. Uncomment to load 30 AI generated questions. -->
+    <!-- <script src="./assets/js/questionsAI.js"></script> -->
     <script src="./assets/js/quiz.js"></script>
 </body>
 
