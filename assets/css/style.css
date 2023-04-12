@@ -185,3 +185,11 @@ td {
     border: 1px solid white;
     padding: .5em;
 }
+
+.incorrectAnswer {
+    color: red;
+}
+
+.correctAnswer {
+    color: lawngreen;
+}

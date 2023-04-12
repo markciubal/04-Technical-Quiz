@@ -306,13 +306,13 @@ function listenForAnswers(questionNumberIndex) {
                 event.preventDefault();
                 if (this.value == correctAnswer) {
                     userAnswers[questionNumberIndex] = "correct";
-                    statusText.textContent = "Correct!";
+                    statusText.innerHTML = `<span class="correctAnswer">Correct!</span>`;
                 } else {
                     secondsLeft = secondsLeft - incorrectPenalty;
                     // Shows the score with red incorrect penalty text.
                     countdownText.innerHTML = `<span style="color: red">${secondsLeft + incorrectPenalty}-${incorrectPenalty}</span> Seconds`;
                     userAnswers[questionNumberIndex] = "incorrect";
-                    statusText.textContent = "Incorrect!";
+                    statusText.innerHTML = `<span class="incorrectAnswer">Incorrect!</span>`;
                 }
                 console.log(questionNumberIndex);
                 nextQuestion(questionNumberIndex);
