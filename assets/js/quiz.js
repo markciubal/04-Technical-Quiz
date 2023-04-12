@@ -28,6 +28,8 @@ All other code was written by Mark Ciubal, unless otherwise stated.
 /* Set up questions. */
 const timeToPlay = 60;
 const numberOfQuestions = 10;
+const incorrectPenalty = 5;
+
 let secondsLeft = timeToPlay;
 let scoreboard = document.querySelector('scoreboard');
 let scores = document.querySelector('#scores');
@@ -232,7 +234,7 @@ function renderAnswers(questionNumberIndex) {
 
 /* Starts the game countdown timer. */
 function startCountdown() {
-    countdownText.innerHTML = "1 Minute";
+    countdownText.innerHTML = timeToPlay + " seconds";
     timerInterval = setInterval(function() {
         secondsLeft--;
         countdownText.innerHTML = `${secondsLeft} Seconds`;
@@ -306,9 +308,9 @@ function listenForAnswers(questionNumberIndex) {
                     userAnswers[questionNumberIndex] = "correct";
                     statusText.textContent = "Correct!";
                 } else {
-                    secondsLeft = secondsLeft - 5;
-                    // Shows the score with red -5 text.
-                    countdownText.innerHTML = `<span style="color: red">${secondsLeft + 5}-5</span> Seconds`;
+                    secondsLeft = secondsLeft - incorrectPenalty;
+                    // Shows the score with red incorrect penalty text.
+                    countdownText.innerHTML = `<span style="color: red">${secondsLeft + incorrectPenalty}-${incorrectPenalty}</span> Seconds`;
                     userAnswers[questionNumberIndex] = "incorrect";
                     statusText.textContent = "Incorrect!";
                 }
