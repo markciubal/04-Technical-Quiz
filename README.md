@@ -16,4 +16,5 @@ WHEN the game is over
 THEN I can save my initials and my score
 ```
 
-f![Video of Quiz in Action](./assets/videos/Awesome%20Quiz%20Application.mp4)
+https://user-images.githubusercontent.com/1228604/231559225-4c08bf68-0456-41c5-96ab-f31f5836bee3.mp4
+
