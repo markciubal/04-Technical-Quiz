@@ -188,8 +188,14 @@ td {
 
 .incorrectAnswer {
     color: red;
+    font-size: 1.2em;
+    background-color: rgba(0, 0, 0, 0);
+    text-shadow: red 1px 0 100px, red 1px 0 80px, red 1px 0 60px, red 1px 0 40px, red 1px 0 100px, red 1px 0 80px, red 1px 0 60px, red 1px 0 40px, red 1px 0 100px, red 1px 0 80px, red 1px 0 60px, red 1px 0 40px, red 1px 0 100px, red 1px 0 80px, red 1px 0 60px, red 1px 0 40px;
 }
 
 .correctAnswer {
     color: lawngreen;
+    font-size: 1.2em;
+    background-color: rgba(0, 0, 0, 0);
+    text-shadow: lawngreen 1px 0 100px, lawngreen 1px 0 80px, lawngreen 1px 0 60px, lawngreen 1px 0 40px, lawngreen 1px 0 100px, lawngreen 1px 0 80px, lawngreen 1px 0 60px, lawngreen 1px 0 40px, lawngreen 1px 0 100px, lawngreen 1px 0 80px, lawngreen 1px 0 60px, lawngreen 1px 0 40px, ;
 }

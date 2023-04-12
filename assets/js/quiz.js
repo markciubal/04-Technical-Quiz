@@ -157,9 +157,9 @@ if (typeof questionsAI !== 'undefined') {
 
 let originalQuestions = [...questions];
 
-
-
+// How many questions are we picking from?
 console.log("Questions Loaded: " + questions.length);
+
 /* Set up bank of questions that will be pulled through in the quiz. */
 let questionBank = [];
 
@@ -314,7 +314,6 @@ function listenForAnswers(questionNumberIndex) {
                     userAnswers[questionNumberIndex] = "incorrect";
                     statusText.innerHTML = `<span class="incorrectAnswer">Incorrect!</span>`;
                 }
-                console.log(questionNumberIndex);
                 nextQuestion(questionNumberIndex);
             });
         }
@@ -325,14 +324,12 @@ function listenForAnswers(questionNumberIndex) {
 
 function renderHighScores() {
     let scoreList = JSON.parse(localStorage.getItem("currentScores"));
-    console.log(scoreList);
 
     /* Sort the table from highest to lowest points value. */
     scoreList = scoreList.sort(function(a,b) {
         return +b.points - +a.points;
     });
     let scoreTable = `<tr><th>Name</th><th>Score</th></tr>`;
-    console.log(scoreTable);
     for (let i = 0; i < scoreList.length; i++) {
         if (scoreList[i].points != 0) {
             scoreTable += `<tr><td>${scoreList[i].name}</td><td>${scoreList[i].points}</td></tr>`;
@@ -403,7 +400,6 @@ function gameOver() {
     gameoverArea.textContent = "GAME OVER";
     questionArea.textContent = "";
     if (statusText) {
-        console.log("Found status text.");
         statusText.textContent = "";
     } else {
         alert("Could not find status text.");
