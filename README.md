@@ -8,7 +8,7 @@ I also wanted to experiment with AI, because most of the other quizzes available
 In the future, you could create the same questions using a prompt such as,
 
 ```
-Create an array with [number of questions] elements with the constant name "questionsAI" with questions as each element about [specific subject]. In each element, "question" will be the key of the question text, "answers" will the key to an array of [number of answers] answer texts, and "correct" as the key of the value that contains the index of the correct answer text."
+Create an array with [number of questions] elements with the constant name "questionsAI" with questions as each element about [specific subject]. In each element, "question" will be the key of the question text, "answers" will the key to an array of [number of answers] answer texts, and "correct" as the key of the value that contains the index of the correct answer text.
 ```
 
 I learned a lot about accessing the DOM and creating HTML elements. I also had fun playing around with the CSS to get what I think were pretty neat effects!
