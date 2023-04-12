@@ -212,6 +212,8 @@ function pickRandomQuestions() {
 function renderQuestion(questionNumberIndex) {
     if (questionNumberIndex < numberOfQuestions) {
         questionArea.textContent = questionBank[questionNumberIndex].question;
+    } else {
+        gameOver();
     }
 }
 
@@ -251,10 +253,7 @@ function nextQuestion(questionNumberIndex) {
     let nextQuestion = questionNumberIndex + 1;
     // If the next question is the last question, then end the game.
     // This will happen when the index of the next question is 9, which is the 10 question.
-    if (nextQuestion == numberOfQuestions) {
-        gameOver(userAnswers);
-        return;
-    }
+
     renderQuestion(nextQuestion);
     renderAnswers(nextQuestion);
     listenForAnswers(nextQuestion);
@@ -301,7 +300,7 @@ function listenForAnswers(questionNumberIndex) {
         let correctAnswer = questionBank[questionNumberIndex].correct;
         answers = document.querySelectorAll(".answer");
         for (let i = 0; i < answers.length; i++) {
-            answers[i].addEventListener("click", function(event) {
+            answers[i].addEventListener("mouseup", function(event) {
                 event.preventDefault();
                 if (this.value == correctAnswer) {
                     userAnswers[questionNumberIndex] = "correct";
@@ -313,6 +312,7 @@ function listenForAnswers(questionNumberIndex) {
                     userAnswers[questionNumberIndex] = "incorrect";
                     statusText.textContent = "Incorrect!";
                 }
+                console.log(questionNumberIndex);
                 nextQuestion(questionNumberIndex);
             });
         }
